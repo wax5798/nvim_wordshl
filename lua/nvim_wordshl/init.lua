@@ -23,19 +23,13 @@ local function whlUpdate()
     end
 end
 
-local function whlToggle(word)
+local function whlToggle(param)
     local new_word = nil
-    local cur_mode = vim.fn.mode()
 
-    if word ~= nil then
-        new_word = word
-    elseif cur_mode == 'n' then
-        -- new_word = "\b" .. vim.fn.expand("<cword>") .. "\b"
-        new_word = vim.fn.expand("<cword>")
-    elseif cur_mode == 'v' then
-        print("visual mode is not support yet")
+    if param["args"] ~= "" then
+        new_word = param["args"]
     else
-        print("not supported mode: " .. cur_mode)
+        new_word = "\\<" .. vim.fn.expand("<cword>") .. "\\>"
     end
 
     if hlist[new_word] == nil then
@@ -48,7 +42,9 @@ local function whlToggle(word)
     whlUpdate()
 end
 
-local function whlDelete(idx)
+local function whlDelete(param)
+    local idx = tonumber(param["args"])
+
     for key in pairs(hlist) do
         if hlist[key] == idx then
             hlist[key] = nil
@@ -69,21 +65,9 @@ local function whlShow()
     end
 end
 
-local function keyRegister()
-    require("which-key").register({
-        ["<leader>h"] = {
-            mode = { "n", "v" },
-            name = "+highlight",
-            t = { function() whlToggle() end, "toggle highlight" },
-            d = { function() whlClear() end, "clear all highlight" },
-            S = { function() whlShow() end, "show all highlight" },
-        },
-    })
-end
 
--- vim.defer_fn(keyRegister, 5000)
-
-vim.api.nvim_create_user_command("WHLToggle", function() whlToggle() end, {})
-vim.api.nvim_create_user_command("WHLDelete", function() whlDelete() end, {})
+vim.api.nvim_create_user_command("WHLToggle", function(param) whlToggle(param) end, { nargs = "*" })
+vim.api.nvim_create_user_command("WHLDelete", function(param) whlDelete(param) end, { nargs = 1 })
+vim.api.nvim_create_user_command("WHLUpdate", function() whlUpdate() end, {})
 vim.api.nvim_create_user_command("WHLClear", function() whlClear() end, {})
 vim.api.nvim_create_user_command("WHLShow", function() whlShow() end, {})
