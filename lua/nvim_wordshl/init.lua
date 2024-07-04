@@ -65,6 +65,7 @@ local function whlShow()
     end
 end
 
+vim.api.nvim_command("autocmd WinNew * :WHLUpdate")
 
 vim.api.nvim_create_user_command("WHLToggle", function(param) whlToggle(param) end, { nargs = "*" })
 vim.api.nvim_create_user_command("WHLDelete", function(param) whlDelete(param) end, { nargs = 1 })
