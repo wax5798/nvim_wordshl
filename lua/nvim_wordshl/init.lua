@@ -1,13 +1,18 @@
 local hlist = {}
 local group_idx = 0
-local group_num = 3
+local group_num = 8
 local word_idx = 0
 local priority = 10
 
 vim.cmd([[
-    highlight whlgroup0 ctermbg=DarkRed guibg=DarkRed
-    highlight whlgroup1 ctermbg=DarkMagenta guibg=DarkMagenta
-    highlight whlgroup2 ctermbg=DarkBlue guibg=DarkBlue
+    highlight whlgroup0 guibg=#a4a55b
+    highlight whlgroup1 guibg=#4da538
+    highlight whlgroup2 guibg=#7b12b2
+    highlight whlgroup3 guibg=#12b28b
+    highlight whlgroup4 guibg=#129bb2
+    highlight whlgroup5 guibg=#b32aba
+    highlight whlgroup6 guibg=#1266b2
+    highlight whlgroup7 guibg=#8e0e5e
 ]])
 
 local function whlUpdate()
